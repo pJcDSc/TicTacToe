@@ -64,6 +64,9 @@ int main() {
     }
   }
 
+  //Print the board before game starts
+  printBoard(board);
+  
   bool playing = true;
   int xWins = 0;
   int oWins = 0;
@@ -124,13 +127,13 @@ int main() {
       else oWins ++;
 
       //Tell user who won and current win counts
-      cout << (turn - 1 ? 'O' : 'X') << " WINS! X has " << xWins << " wins and O has " << oWins << " wins." << endl;
+      cout << (turn - 1 ? 'O' : 'X') << " WINS! X has " << xWins << " win(s) and O has " << oWins << " win(s)." << endl;
       gameEnd = true;
     }
     else if (checkTie(board)) {
       
       //Tell user its a tie and current win counts
-      cout << "It's a tie! X has " << xWins << " wins and O has " << oWins << " wins." << endl;
+      cout << "It's a tie! X has " << xWins << " win(s) and O has " << oWins << " win(s)." << endl;
       gameEnd = true;
     }
 
@@ -147,7 +150,7 @@ int main() {
       if (again == 'n') {
 	cout << "Thanks for playing!" << endl;
 	playing = false;
-      }
+      } 
 
       //Reset turn
       turn = 0;
@@ -157,6 +160,11 @@ int main() {
 	for(int j = 0; j < 3; j++) {
 	  board[i][j] = BLANK;
 	}
+      }
+
+      //Print pregame board
+      if (again != 'n'){
+	printBoard(board);
       }
     }
 
