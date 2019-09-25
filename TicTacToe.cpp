@@ -90,6 +90,8 @@ int main() {
       do {
         cout << "Please enter the row (A-C)." << endl;
         cin >> inRow;
+	cin.clear();
+	cin.ignore(999, '\n');
 	inRow = toupper(inRow);
       } while (inRow != 'A' && inRow != 'B'&& inRow != 'C');
 
@@ -97,6 +99,8 @@ int main() {
       do {
         cout << "Please enter the column (1-3)." << endl;
         cin >> inCol;
+	cin.clear();
+	cin.ignore(999, '\n');
       } while (inCol != '1' && inCol != '2'&& inCol != '3');
 
       //Translate input to row and column indeces
