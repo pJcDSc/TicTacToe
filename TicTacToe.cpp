@@ -82,38 +82,39 @@ int main() {
 
     //Tell user whose turn it is
     cout << "It is " << (turn ? 'O' : 'X') << "'s turn." << endl;
+    cout << "Please enter a row followed by a column" << endl;
 
-    //Loop while the input is invalid
-    while (!isValid) {
+    //Read input
+    char in[4] = "";
+    while(!isValid) {
+      cin.get(in, 4);
+      cin.clear();
+      cin.ignore(999, '\n');
 
-      //Prompt user to input a row letter
-      do {
-        cout << "Please enter the row (A-C)." << endl;
-        cin >> inRow;
-	cin.clear();
-	cin.ignore(999, '\n');
-	inRow = toupper(inRow);
-      } while (inRow != 'A' && inRow != 'B'&& inRow != 'C');
-
-      //Prompt user to input a column number
-      do {
-        cout << "Please enter the column (1-3)." << endl;
-        cin >> inCol;
-	cin.clear();
-	cin.ignore(999, '\n');
-      } while (inCol != '1' && inCol != '2'&& inCol != '3');
-
-      //Translate input to row and column indeces
-      rowInd = inRow - 'A';
-      colInd = inCol - '1';
-
-      //If the spot is taken prompt user to input a new spot
-      if (board[rowInd][colInd] != BLANK) {
-	cout << "That spot is taken! Please choose another spot." << endl;
+      //Ensure input is 2 characters
+      if (strlen(in) != 2) {
+	cout << "Please enter exactly two characters" << endl;
+	continue;
       }
-      else{
-	isValid = true;
+
+      //Make sure input is valid
+      if(toupper(in[0]) - 'A' > 2 || toupper(in[0]) - 'A' < 0 ||
+	 in[1] - '1' > 2 || in[1] - '1' < 0) {
+	cout << "Please enter a valid row / column" << endl;
+	continue;
       }
+
+      //Get corresponding row and column
+      rowInd = toupper(in[0]) - 'A';
+      colInd = in[1] - '1';
+      
+      //Make sure the spot is not taken
+      if(board[rowInd][colInd] != BLANK) {
+	cout << "That spot is taken!" << endl;
+	continue;
+      }
+
+      isValid = true;
     }
 
     //Add the play to the board
@@ -147,15 +148,26 @@ int main() {
       //Prompt user if they want to play again
       cout << "Play again? (y/n)" << endl;
 
-      char again;
-      cin >> again;
+      //Loop until break
+      while(true) {
 
-      //If they don't set playing variable to false to exit while loop
-      if (again == 'n') {
-	cout << "Thanks for playing!" << endl;
-	playing = false;
-      } 
-
+	//Read again
+	char again;
+	cin >> again;
+	cin.clear();
+	cin.ignore(999, '\n');
+      
+	//If they don't want to play again set 'playing' variable to false to exit while loop
+	cout << again << endl;
+	if (again == 'n') {
+	  cout << "Thanks for playing!" << endl;
+	  playing = false;
+	  break;
+	} else if (again != 'y') {
+	  cout << "Please enter either \"y\" or \"n\"." << endl;
+	} else break;
+	
+      }
       //Reset turn
       turn = 0;
 
@@ -167,7 +179,7 @@ int main() {
       }
 
       //Print pregame board
-      if (again != 'n'){
+      if (playing){
 	printBoard(board);
       }
     }
